@@ -1,5 +1,5 @@
 // Setup Cubism Model and Pixi live2d
-const cubismModel = "models/Nyarch/Design_genius(1).model3.json";
+const cubismModel = "models/Hi/hiyori_free_t08.model3.json";
 const live2d = PIXI.live2d;
 
 var model_proxy;
