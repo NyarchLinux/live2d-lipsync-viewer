@@ -3,7 +3,10 @@ const cubismModel = "models/Hi/hiyori_free_t08.model3.json";
 const live2d = PIXI.live2d;
 
 var model_proxy;
-
+const xs = window.matchMedia('screen and (max-width: 768px)');
+  xs.addEventListener('change', (e) => {
+    if (e.matches)  model.scale.set(0.1);
+  });
 (async function main() {
   const app = new PIXI.Application({
   view: document.getElementById("canvas"),
@@ -16,13 +19,13 @@ var model_proxy;
   model_proxy = model;
   app.stage.addChild(model);
   // Scale the model
-  const scaleX = innerWidth * 0.6 / model.width;
-  const scaleY = innerHeight * 0.9 / model.height;
-
+  const scaleX = innerWidth * 0.8 / (model.width * 0.5);
+  const scaleY = innerHeight * 0.8 / (model.height * 0.5);
   // fit the window
-  model.scale.set(Math.min(scaleX, scaleY));
+  model.scale.set(Math.min(scaleY, scaleX));
 
-  model.y = innerHeight * 0.1;
+  model.y = innerHeight * 0.5 - (model.height * 0.5);
+  model.x = (innerWidth * 0.5) - (model.width * 0.5);
 
   draggable(model);
   //addFrame(model);
@@ -71,24 +74,6 @@ function playAudio(audio_link, volume=1, expression=0) {
     model_proxy.speak(audio_link, volume, expression);
 }
 
-/*
-function checkbox(name, onChange) {
-  const id = name.replace(/\W/g, "").toLowerCase();
-
-  let checkbox = document.getElementById(id);
-
-  if (!checkbox) {
-    const p = document.createElement("p");
-    p.innerHTML = `<input type="checkbox" id="${id}"> <label for="${id}">${name}</label>`;
-
-    document.getElementById("control").appendChild(p);
-    checkbox = p.firstChild;
-  }
-
-  checkbox.addEventListener("change", () => {
-    onChange(checkbox.checked);
-  });
-
-  onChange(checkbox.checked);
+function set_mouth_y(value) {
+    model_proxy.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', value)
 }
-*/
