@@ -3,7 +3,7 @@
 //const cubismModel = "models/Hi/hiyori_free_t08.model3.json"
 const cubismModel = "models/Epsilon/runtime/Epsilon.model3.json"
 const live2d = PIXI.live2d;
-
+var updateFn;
 var model_proxy;
 const xs = window.matchMedia('screen and (max-width: 768px)');
   xs.addEventListener('change', (e) => {
@@ -19,6 +19,8 @@ const xs = window.matchMedia('screen and (max-width: 768px)');
   const model = models[0]
   
   model_proxy = model;
+
+  updateFn = model.internalModel.motionManager.update;
   app.stage.addChild(model);
   // Scale the model
   const scaleX = innerWidth * 0.7 / (model.width * 0.5);
@@ -76,8 +78,16 @@ function playAudio(audio_link, volume=1, expression=0) {
     model_proxy.speak(audio_link, volume, expression);
 }
 
-function set_mouth_y(value) {
+function set_mouth_y(value) { 
     model_proxy.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', value)
+    // Cubism 4
+    if (model_proxy.internalModel instanceof live2d.Cubism4InternalModel) {
+      model = model_proxy
+      model.internalModel.motionManager.update = () => {
+        updateFn.call(model.internalModel.motionManager, model.internalModel.coreModel, Date.now()/1000);
+        model.internalModel.coreModel.setParameterValueById("PARAM_MOUTH_OPEN_Y", value);
+      }
+    }
 }
 
 function get_expressions() {
@@ -87,10 +97,13 @@ function get_expressions() {
   result = []
   def = model_proxy.internalModel.motionManager.expressionManager.definitions;
   for (expression in def) {
-      console.log(expression);
       result[expression] = def[expression].Name
   }
   return result
+}
+
+function get_expressions_json() {
+  return JSON.stringify(get_expressions(), null, 2)
 }
 
 function set_expression(expression) {
