@@ -1,5 +1,7 @@
 // Setup Cubism Model and Pixi live2d
-const cubismModel = "models/Hi/hiyori_free_t08.model3.json";
+//const cubismModel = "models/arch/arch chan model0.model3.json";
+const cubismModel = "models/Hi/hiyori_free_t08.model3.json"
+
 const live2d = PIXI.live2d;
 
 var model_proxy;
@@ -19,8 +21,8 @@ const xs = window.matchMedia('screen and (max-width: 768px)');
   model_proxy = model;
   app.stage.addChild(model);
   // Scale the model
-  const scaleX = innerWidth * 0.8 / (model.width * 0.5);
-  const scaleY = innerHeight * 0.8 / (model.height * 0.5);
+  const scaleX = innerWidth * 0.7 / (model.width * 0.5);
+  const scaleY = innerHeight * 0.7 / (model.height * 0.5);
   // fit the window
   model.scale.set(Math.min(scaleY, scaleX));
 
@@ -76,4 +78,8 @@ function playAudio(audio_link, volume=1, expression=0) {
 
 function set_mouth_y(value) {
     model_proxy.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', value)
+}
+
+function name(params) {
+    
 }
