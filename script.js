@@ -1,7 +1,15 @@
 // Setup Cubism Model and Pixi live2d
 //const cubismModel = "models/arch/arch chan model0.model3.json";
 //const cubismModel = "models/Hi/hiyori_free_t08.model3.json"
-const cubismModel = "models/Epsilon/runtime/Epsilon.model3.json"
+const urlParams = new URLSearchParams(window.location.search);
+const model = urlParams.get('model');
+var cubismModel;
+if (model != null) {
+  cubismModel = "models/" + model
+} else {
+  cubismModel = "models/Epsilon/runtime/Epsilon.model3.json"
+}
+
 const live2d = PIXI.live2d;
 var updateFn;
 var model_proxy;
