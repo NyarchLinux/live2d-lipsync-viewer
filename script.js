@@ -1,7 +1,7 @@
 // Setup Cubism Model and Pixi live2d
 //const cubismModel = "models/arch/arch chan model0.model3.json";
-const cubismModel = "models/Hi/hiyori_free_t08.model3.json"
-
+//const cubismModel = "models/Hi/hiyori_free_t08.model3.json"
+const cubismModel = "models/Epsilon/runtime/Epsilon.model3.json"
 const live2d = PIXI.live2d;
 
 var model_proxy;
@@ -80,6 +80,19 @@ function set_mouth_y(value) {
     model_proxy.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', value)
 }
 
-function name(params) {
-    
+function get_expressions() {
+  if (model_proxy.internalModel.motionManager.expressionManager == null) {
+    return []
+  }
+  result = []
+  def = model_proxy.internalModel.motionManager.expressionManager.definitions;
+  for (expression in def) {
+      console.log(expression);
+      result[expression] = def[expression].Name
+  }
+  return result
+}
+
+function set_expression(expression) {
+  model_proxy.expression(expression)
 }
