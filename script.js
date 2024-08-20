@@ -1,13 +1,20 @@
 // Setup Cubism Model and Pixi live2d
-//const cubismModel = "models/arch/arch chan model0.model3.json";
 //const cubismModel = "models/Hi/hiyori_free_t08.model3.json"
 const urlParams = new URLSearchParams(window.location.search);
 const model = urlParams.get('model');
+var color = urlParams.get('bg');
 var cubismModel;
 if (model != null) {
   cubismModel = "models/" + model
 } else {
-  cubismModel = "models/Epsilon/runtime/Epsilon.model3.json"
+  cubismModel = "models/Arch/arch chan model0.model3.json";
+}
+
+if (color == null) {
+  color = "#000000";
+}
+function convertHexColor(hexColor) {
+  return '0x' + parseInt(hexColor.replace(/^#/, ''), 16).toString(16);
 }
 
 const live2d = PIXI.live2d;
@@ -22,7 +29,7 @@ const xs = window.matchMedia('screen and (max-width: 768px)');
   view: document.getElementById("canvas"),
   autoStart: true,
   resizeTo: window,
-  backgroundColor: 0x333333 });
+  backgroundColor: convertHexColor(color) });
   const models = await Promise.all([live2d.Live2DModel.from(cubismModel)]);
   const model = models[0]
   
