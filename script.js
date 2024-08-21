@@ -1,11 +1,11 @@
 // Setup Cubism Model and Pixi live2d
 //const cubismModel = "models/Hi/hiyori_free_t08.model3.json"
 const urlParams = new URLSearchParams(window.location.search);
-const model = urlParams.get('model');
+const model_path = urlParams.get('model');
 var color = urlParams.get('bg');
 var cubismModel;
-if (model != null) {
-  cubismModel = "models/" + model
+if (model_path != null) {
+  cubismModel = "models/" + model_path
 } else {
   cubismModel = "models/Arch/arch chan model0.model3.json";
 }
@@ -100,6 +100,11 @@ function set_mouth_y(value) {
       model = model_proxy
       model.internalModel.motionManager.update = () => {
         updateFn.call(model.internalModel.motionManager, model.internalModel.coreModel, Date.now()/1000);
+        if (model_proxy.internalModel.motionManager.lipSyncIds.length > 0) {
+          for (id in model_proxy.internalModel.motionManager.lipSyncIds) {
+            model.internalModel.coreModel.setParameterValueById(model_proxy.internalModel.motionManager.lipSyncIds[id], value);
+          }
+        }
         model.internalModel.coreModel.setParameterValueById("PARAM_MOUTH_OPEN_Y", value);
       }
     }
