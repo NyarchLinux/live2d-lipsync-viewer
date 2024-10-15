@@ -1,0 +1,10 @@
+{
+	"Type": "Live2D Expression",
+	"Parameters": [
+		{
+			"Id": "MouseToggle",
+			"Value": 0,
+			"Blend": "Multiply"
+		}
+	]
+}
