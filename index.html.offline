@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Live2D displayer</title>
+  <link rel="stylesheet" href="normalize.min.css">
+<link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+
+<!-- Load Cubism and PixiJS -->
+<script src="live2dcubismcore.min.js"></script>
+<script src="live2d.min.js"></script>
+<script src="pixi.min.js"></script>
+
+<!-- Support for both Cubism 2.1 and 4 -->
+<script src="cubism4.min.js"></script>
+<canvas id=canvas></canvas>
+
+<div id="control"></div>
+  <script  src="./script.js"></script>
+</body>
+</html>
