@@ -7,13 +7,15 @@ var cubismModel;
 if (model_path != null) {
   cubismModel = "models/" + model_path
 } else {
-  cubismModel = "models/Arch/arch chan model0.model3.json";
+  cubismModel = "models/shizuku-local/shizuku.model.json";
+  //cubismModel = "models/Arch/arch chan model0.model3.json";
 }
 
 if (color == null) {
   color = "#000000";
 }
 function convertHexColor(hexColor) {
+  return 0x000000
   return '0x' + parseInt(hexColor.replace(/^#/, ''), 16).toString(16);
 }
 
@@ -94,22 +96,30 @@ function playAudio(audio_link, volume=1, expression=0) {
 }
 
 function set_mouth_y(value) { 
-    model_proxy.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', value)
+    
+    set_parameter('ParamMouthOpenY', value)
     // Cubism 4
-    if (model_proxy.internalModel instanceof live2d.Cubism4InternalModel) {
+    if ('motionManager' in model_proxy.internalModel) {
       model = model_proxy
       model.internalModel.motionManager.update = () => {
         updateFn.call(model.internalModel.motionManager, model.internalModel.coreModel, Date.now()/1000);
         if (model_proxy.internalModel.motionManager.lipSyncIds.length > 0) {
           for (id in model_proxy.internalModel.motionManager.lipSyncIds) {
-            model.internalModel.coreModel.setParameterValueById(model_proxy.internalModel.motionManager.lipSyncIds[id], value);
+            set_parameter(model_proxy.internalModel.motionManager.lipSyncIds[id], value);
           }
         }
-        model.internalModel.coreModel.setParameterValueById("PARAM_MOUTH_OPEN_Y", value);
+        set_parameter("PARAM_MOUTH_OPEN_Y", value);
       }
     }
 }
 
+function set_parameter(name, value) {
+    if ('setParameterValueById' in model_proxy.internalModel.coreModel) {
+        model_proxy.internalModel.coreModel.setParameterValueById(name, value);
+    } else if ('setParamFloat' in model_proxy.internalModel.coreModel) {
+        model_proxy.internalModel.coreModel.setParamFloat(name, value);
+    }
+}
 function get_expressions() {
   if (model_proxy.internalModel.motionManager.expressionManager == null) {
     return []
