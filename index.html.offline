@@ -15,7 +15,7 @@
 <script src="pixi.min.js"></script>
 
 <!-- Support for both Cubism 2.1 and 4 -->
-<script src="cubism4.min.js"></script>
+<script src="index.min.js"></script>
 <canvas id=canvas></canvas>
 
 <div id="control"></div>
