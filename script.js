@@ -7,16 +7,14 @@ var cubismModel;
 if (model_path != null) {
   cubismModel = "models/" + model_path
 } else {
-  cubismModel = "models/shizuku-local/shizuku.model.json";
-  //cubismModel = "models/Arch/arch chan model0.model3.json";
+  cubismModel = "models/Arch/arch chan model0.model3.json";
 }
 
 if (color == null) {
-  color = "#000000";
+  color = "000000";
 }
 function convertHexColor(hexColor) {
-  return 0x000000
-  return '0x' + parseInt(hexColor.replace(/^#/, ''), 16).toString(16);
+  return 0x000 + parseInt(hexColor.replace(/^#/, ''), 16);
 }
 
 const live2d = PIXI.live2d;
