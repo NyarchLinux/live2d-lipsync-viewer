@@ -10,11 +10,19 @@ if (model_path != null) {
   cubismModel = "models/Arch/arch chan model0.model3.json";
 }
 
+var transparent = false;
 if (color == null) {
-  color = "000000";
+  color = "#000000";
+}
+if (color == "transparent") {
+  transparent = true;
 }
 function convertHexColor(hexColor) {
-  return 0x000 + parseInt(hexColor.replace(/^#/, ''), 16);
+  if (hexColor == "transparent") {
+    return 0x000
+  }
+  consol
+  return 0x000 + parseInt(hexColor.replace(/#/g, ''), 16);
 }
 
 const live2d = PIXI.live2d;
@@ -29,7 +37,8 @@ const xs = window.matchMedia('screen and (max-width: 768px)');
   view: document.getElementById("canvas"),
   autoStart: true,
   resizeTo: window,
-  backgroundColor: convertHexColor(color) });
+  backgroundColor: convertHexColor(color),
+  backgroundAlpha: transparent ? 0 : 1});
   const models = await Promise.all([live2d.Live2DModel.from(cubismModel)]);
   const model = models[0]
   
