@@ -51,7 +51,7 @@ const xs = window.matchMedia('screen and (max-width: 768px)');
   const scaleX = innerWidth * 0.7 / (model.width * 0.5);
   const scaleY = innerHeight * 0.7 / (model.height * 0.5);
   // fit the window
-  model.scale.set(Math.min(scaleY, scaleX)) * parseFloat(scale);
+  model.scale.set(Math.min(scaleY, scaleX)* parseFloat(scale));
   ;
   model.y = innerHeight * 0.5 - (model.height * 0.5);
   model.x = (innerWidth * 0.5) - (model.width * 0.5);
