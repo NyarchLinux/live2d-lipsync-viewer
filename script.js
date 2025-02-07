@@ -22,8 +22,6 @@ function convertHexColor(hexColor) {
   if (hexColor == "transparent") {
     return 0x000
   }
-  consol
-  return 0x000 + parseInt(hexColor.replace(/#/g, ''), 16);
 }
 
 const live2d = PIXI.live2d;
