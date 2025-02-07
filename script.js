@@ -2,6 +2,7 @@
 //const cubismModel = "models/Hi/hiyori_free_t08.model3.json"
 const urlParams = new URLSearchParams(window.location.search);
 const model_path = urlParams.get('model');
+const scale = urlParams.get('scale');
 var color = urlParams.get('bg');
 var cubismModel;
 if (model_path != null) {
@@ -50,8 +51,8 @@ const xs = window.matchMedia('screen and (max-width: 768px)');
   const scaleX = innerWidth * 0.7 / (model.width * 0.5);
   const scaleY = innerHeight * 0.7 / (model.height * 0.5);
   // fit the window
-  model.scale.set(Math.min(scaleY, scaleX));
-
+  model.scale.set(Math.min(scaleY, scaleX)) * parseFloat(scale);
+  ;
   model.y = innerHeight * 0.5 - (model.height * 0.5);
   model.x = (innerWidth * 0.5) - (model.width * 0.5);
 
