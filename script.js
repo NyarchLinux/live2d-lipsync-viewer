@@ -1,5 +1,6 @@
 // Setup Cubism Model and Pixi live2d
 //const cubismModel = "models/Hi/hiyori_free_t08.model3.json"
+document.body.style.overflow = 'hidden';
 const urlParams = new URLSearchParams(window.location.search);
 const model_path = urlParams.get('model');
 const scale = urlParams.get('scale');
