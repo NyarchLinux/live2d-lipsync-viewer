@@ -28,6 +28,13 @@ function convertHexColor(hexColor) {
   if (hexColor == "transparent") {
     return 0x000
   }
+  if (hexColor.startsWith("#")) {
+    hexColor = hexColor.substring(1);
+  }
+  if (hexColor.length == 3) {
+    hexColor = hexColor[0] + hexColor[0] + hexColor[1] + hexColor[1] + hexColor[2] + hexColor[2];
+  }
+  return parseInt(hexColor, 16);
 }
 
 const live2d = PIXI.live2d;
