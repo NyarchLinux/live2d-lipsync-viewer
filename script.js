@@ -3,13 +3,18 @@
 document.body.style.overflow = 'hidden';
 const urlParams = new URLSearchParams(window.location.search);
 const model_path = urlParams.get('model');
-const scale = urlParams.get('scale');
+var scale = urlParams.get('scale');
 var color = urlParams.get('bg');
 var cubismModel;
 if (model_path != null) {
   cubismModel = "models/" + model_path
 } else {
   cubismModel = "models/Arch/arch chan model0.model3.json";
+
+}
+
+if (scale == null) {
+  scale = 1;
 }
 
 var transparent = false;
@@ -59,16 +64,34 @@ const xs = window.matchMedia('screen and (max-width: 768px)');
   //addFrame(model);
 
   // handle tapping
-  model.on("hit", hitAreas => {
-    if (hitAreas.includes("Body")) {
-      model.motion("tap");
-    }
-    if (hitAreas.includes("Head")) {
-      model.expression();
-    }
-  });
+  if ('motionManager' in model_proxy.internalModel) {
+    model.on("hit", hitAreas => {
+      console.log(hitAreas);
+      startHitMotion(hitAreas, model);
+    }) 
+  }
 })();
 
+function startHitMotion(hitAreaNames, model) {
+    for (let area of hitAreaNames) {
+        area = area.toLowerCase();
+        if (area === '') {
+          area = 'body';
+        }
+
+        const possibleGroups = [area, 'tap' + area, 'tap_' + area, 'tap', 'body', 'tap@body'];
+
+        for (const possibleGroup of possibleGroups) {
+            for (let group of Object.keys(model.internalModel.motionManager.definitions)) {
+                if (possibleGroup === group.toLowerCase()) {
+                    console.log(group);
+                    model.motion(group);
+                    return;
+                }
+            }
+        }
+    }
+}
 function draggable(model) {
   model.buttonMode = true;
   model.on("pointerdown", e => {
@@ -143,6 +166,60 @@ function get_expressions_json() {
   return JSON.stringify(get_expressions(), null, 2)
 }
 
+function get_motions_json(){
+  return JSON.stringify(get_motions(), null, 2)
+}
 function set_expression(expression) {
   model_proxy.expression(expression)
 }
+
+
+function get_motions() {
+  const motionGroups = [];
+
+  for (const groupName in model_proxy.internalModel.motionManager.definitions) {
+    if (model_proxy.internalModel.motionManager.definitions.hasOwnProperty(groupName)) {
+      const motions = model_proxy.internalModel.motionManager.definitions[groupName];
+      const motionList = [];
+
+      if (Array.isArray(motions)) {
+        motions.forEach(motion => {
+          if (typeof motion === 'object' && motion !== null) {
+             // Check if motion is an object before trying to access its properties
+              motionList.push({
+                name: motion.Name || null, // Use null if Name is not available
+                file: motion.File || null,   // Use null if File is not available
+              });
+          }
+        });
+      }
+
+      motionGroups.push({
+        groupName: groupName,
+        motions: motionList,
+      });
+    }
+  }
+
+  return motionGroups;
+}
+
+function do_motion(file_name) {
+    var defs = model_proxy.internalModel.motionManager.definitions
+    for (const groupName in defs) {
+        if (file_name == groupName) {
+            return model_proxy.motion(groupName);
+        }
+        if (defs.hasOwnProperty(groupName)) {
+            var index = 0;
+            for (motion in defs[groupName]) {
+                
+                if (defs[groupName][motion].File == file_name) {
+                    return model_proxy.motion(groupName, index);
+                }
+                index += 1;
+            }
+        }
+        
+    }
+  }
