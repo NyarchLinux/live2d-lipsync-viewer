@@ -10,7 +10,6 @@ if (model_path != null) {
   cubismModel = "models/" + model_path
 } else {
   cubismModel = "models/Arch/arch chan model0.model3.json";
-
 }
 
 if (scale == null) {
@@ -53,7 +52,7 @@ const xs = window.matchMedia('screen and (max-width: 768px)');
   backgroundAlpha: transparent ? 0 : 1});
   const models = await Promise.all([live2d.Live2DModel.from(cubismModel)]);
   const model = models[0]
-  
+
   model_proxy = model;
 
   updateFn = model.internalModel.motionManager.update;
@@ -63,19 +62,34 @@ const xs = window.matchMedia('screen and (max-width: 768px)');
   const scaleY = innerHeight * 0.7 / (model.height * 0.5);
   // fit the window
   model.scale.set(Math.min(scaleY, scaleX)* parseFloat(scale));
-  
+
   model.y = innerHeight * 0.5 - (model.height * 0.5);
   model.x = (innerWidth * 0.5) - (model.width * 0.5);
 
   draggable(model);
   //addFrame(model);
 
+  // <<< --- ADDED CODE START --- >>>
+  // Start idle motion - Assumes the idle motion group is named "Idle"
+  // The library should handle picking random motions from this group
+  // and looping them when the model is otherwise idle.
+  if (model.internalModel.motionManager?.definitions?.Idle) {
+      model.motion('Idle');
+      console.log("Starting Idle motion.");
+  } else {
+      console.warn("Could not find 'Idle' motion group. Idle animation may not play.");
+      // Optional: Log available groups to help debugging
+      // console.log("Available motion groups:", Object.keys(model.internalModel.motionManager?.definitions || {}));
+  }
+  // <<< --- ADDED CODE END --- >>>
+
+
   // handle tapping
   if ('motionManager' in model_proxy.internalModel) {
     model.on("hit", hitAreas => {
       console.log(hitAreas);
       startHitMotion(hitAreas, model);
-    }) 
+    })
   }
 })();
 
@@ -132,8 +146,8 @@ function playAudio(audio_link, volume=1, expression=0) {
     model_proxy.speak(audio_link, volume, expression);
 }
 
-function set_mouth_y(value) { 
-    
+function set_mouth_y(value) {
+
     set_parameter('ParamMouthOpenY', value)
     // Cubism 4
     if ('motionManager' in model_proxy.internalModel) {
@@ -220,13 +234,13 @@ function do_motion(file_name) {
         if (defs.hasOwnProperty(groupName)) {
             var index = 0;
             for (motion in defs[groupName]) {
-                
+
                 if (defs[groupName][motion].File == file_name) {
                     return model_proxy.motion(groupName, index);
                 }
                 index += 1;
             }
         }
-        
+
     }
   }
