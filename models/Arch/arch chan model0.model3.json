@@ -1,17 +1,17 @@
 {
-	"Version": 3,
-	"FileReferences": {
-		"Moc": "Arch Chan Model0.moc3",
-		"Textures": [
-			"Arch Chan Model0.2048/texture_00.png"
-		],
-		"Physics": "Arch Chan Model0.physics3.json",
-		"DisplayInfo": "Arch Chan Model0.cdi3.json",
-		"Expressions": [
-			{
-				"Name": "idle",
-				"File": "Mouse.exp3.json"
-			},
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "Arch Chan Model0.moc3",
+    "Textures": [
+      "Arch Chan Model0.2048/texture_00.png"
+    ],
+    "Physics": "Arch Chan Model0.physics3.json",
+    "DisplayInfo": "Arch Chan Model0.cdi3.json",
+    "Expressions": [
+      {
+        "Name": "idle",
+        "File": "Mouse.exp3.json"
+      },
       {
         "Name": "smirk",
         "File": "Smirk.exp3.json"
@@ -20,14 +20,66 @@
         "Name": "blink",
         "File": "Blink.exp3.json"
       }
-		]
-	},
-	"Groups": [
-		{
-			"Target": "Parameter",
-			"Name": "EyeBlink",
-			"Ids": []
-		}
-	],
-	"HitAreas": []
+    ],
+    "Motions": {
+      "Action": [
+        {
+          "File": "motion/arch_happy.motion3.json",
+          "Name": "Happy",
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/arch_wink.motion3.json",
+          "Name": "Wink",
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/arch_nod.motion3.json",
+          "Name": "Nod",
+          "FadeInTime": 0.4,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/arch_thinking.motion3.json",
+          "Name": "Thinking",
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/arch_surprised.motion3.json",
+          "Name": "Surprised",
+          "FadeInTime": 0.2,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/arch_shy.motion3.json",
+          "Name": "Shy",
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/arch_shakehead.motion3.json",
+          "Name": "No-no",
+          "FadeInTime": 0.4,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "motion/arch_sad.motion3.json",
+          "Name": "Sad",
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5
+        }
+      ]
+    }
+  },
+  "Groups": [
+    {
+      "Target": "Parameter",
+      "Name": "EyeBlink",
+      "Ids": []
+    }
+  ],
+  "HitAreas": []
 }
